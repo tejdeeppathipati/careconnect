@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareConnect — Trusted Home Care Coordination for Northern Virginia Families</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1A6FD4;
+  --blue-dark: #0F4FA0;
+  --blue-light: #E8F0FB;
+  --sky: #4FA3E8;
+  --teal: #2ABFBF;
+  --warm: #FF7C4A;
+  --yellow: #FFD166;
+  --charcoal: #1A1A2E;
+  --mid: #5A6480;
+  --light: #EFF2F8;
+  --white: #FFFFFF;
+  --border: #D8E2F3;
+  --green: #1D8A57;
+  --green-light: #E6F9F0;
+  --red-light: #FFF0ED;
+  --red: #D94F3B;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--charcoal); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 200;
+  padding: 18px 64px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 26px; font-weight: 700;
+  color: var(--blue-dark);
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--warm); display: inline-block; }
+.nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--mid); font-size: 14px; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--blue); }
+.nav-btn { background: var(--blue); color: white !important; padding: 10px 26px; border-radius: 50px; font-weight: 600 !important; transition: background .2s !important; }
+.nav-btn:hover { background: var(--blue-dark) !important; }
+.nav-region { font-size: 12px; color: var(--mid); background: var(--light); padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0F4FA0 0%, #1A6FD4 45%, #2ABFBF 100%);
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 100px 64px 60px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%23ffffff' fill-opacity='0.06'/%3E%3C/svg%3E");
+}
+.hero-left { position: relative; z-index: 1; animation: fadeUp .9s ease both; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  color: white; font-size: 12px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 8px 18px; border-radius: 50px; margin-bottom: 32px;
+}
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); animation: blink 1.4s infinite; }
+h1 { font-family: 'Fraunces', serif; font-size: 60px; line-height: 1.08; font-weight: 700; color: white; margin-bottom: 24px; }
+h1 em { font-style: italic; font-weight: 300; color: var(--yellow); }
+.hero-sub { font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.82); max-width: 480px; margin-bottom: 44px; }
+.hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn-white {
+  background: white; color: var(--blue-dark);
+  padding: 15px 34px; border-radius: 50px;
+  font-size: 15px; font-weight: 700; text-decoration: none;
+  transition: all .25s; box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.25); }
+.btn-ghost { color: white; font-size: 15px; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 8px; opacity: .85; transition: opacity .2s; }
+.btn-ghost:hover { opacity: 1; }
+.hero-trust { display: flex; gap: 32px; margin-top: 52px; padding-top: 36px; border-top: 1px solid rgba(255,255,255,0.2); }
+.trust-stat .num { font-family: 'Fraunces', serif; font-size: 34px; font-weight: 700; color: white; line-height: 1; }
+.trust-stat .label { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+
+.hero-right { display: flex; justify-content: center; align-items: center; position: relative; z-index: 1; animation: fadeUp 1.1s ease both; }
+.phone-shell {
+  background: white; border-radius: 40px; padding: 20px 16px; width: 300px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.2);
+}
+.phone-notch { width: 80px; height: 10px; background: var(--charcoal); border-radius: 10px; margin: 0 auto 18px; }
+.phone-screen { background: var(--light); border-radius: 24px; padding: 18px; }
+.app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.app-logo { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: var(--blue-dark); }
+.app-notif { background: var(--warm); color: white; font-size: 10px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.caregiver-match { background: white; border-radius: 16px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.match-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--sky), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.match-info { flex: 1; }
+.match-name { font-size: 13px; font-weight: 700; color: var(--charcoal); }
+.match-role { font-size: 11px; color: var(--mid); margin-top: 2px; }
+.match-available { background: #E6F9F0; color: #1D8A57; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+.checklist-widget { background: white; border-radius: 14px; padding: 12px 14px; border: 1px solid var(--border); margin-bottom: 10px; }
+.checklist-title { font-size: 11px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+.check-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--charcoal); padding: 4px 0; }
+.check-box { width: 16px; height: 16px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; }
+.check-box.done { background: var(--blue); color: white; }
+.check-box.pending { background: var(--light); border: 1.5px solid var(--border); }
+.progress-bar { background: var(--light); border-radius: 4px; height: 6px; margin-top: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 66%; background: linear-gradient(90deg, var(--blue), var(--teal)); border-radius: 4px; }
+.peace-badge { background: linear-gradient(135deg, var(--warm), #FF9A72); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+.peace-badge span { font-size: 20px; }
+.peace-badge p { font-size: 11px; color: white; font-weight: 600; }
+
+.float-notif {
+  position: absolute; left: -60px; bottom: 80px;
+  background: white; border-radius: 16px; padding: 12px 16px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  display: flex; align-items: center; gap: 10px;
+  animation: float 3s ease-in-out infinite; width: 220px;
+}
+.float-notif .emoji { font-size: 24px; }
+.float-notif-text { font-size: 12px; }
+.float-notif-text strong { display: block; font-size: 13px; font-weight: 700; color: var(--charcoal); }
+.float-notif-text span { color: var(--mid); }
+
+/* PROBLEM */
+.problem-section { padding: 100px 64px; background: var(--charcoal); text-align: center; }
+.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sky); margin-bottom: 16px; }
+.problem-section h2 { font-family: 'Fraunces', serif; font-size: 50px; font-weight: 300; color: white; margin-bottom: 16px; line-height: 1.1; }
+.problem-section h2 em { font-style: italic; color: var(--yellow); }
+.lead { font-size: 18px; color: rgba(255,255,255,0.55); max-width: 580px; margin: 0 auto 64px; line-height: 1.7; }
+.pain-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
+.pain-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px 24px; text-align: left; transition: background .3s; }
+.pain-card:hover { background: rgba(255,255,255,0.08); }
+.pain-icon { font-size: 36px; margin-bottom: 16px; }
+.pain-card h3 { font-size: 17px; font-weight: 700; color: white; margin-bottom: 10px; }
+.pain-card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+/* COMPARISON (NEW) */
+.compare-section { padding: 100px 64px; background: var(--white); }
+.compare-section h2 { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+.compare-section h2 em { font-style: italic; color: var(--blue); font-weight: 300; }
+.compare-sub { text-align: center; color: var(--mid); font-size: 16px; margin-bottom: 56px; }
+.compare-table { max-width: 860px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 1.5px solid var(--border); }
+.compare-header { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--charcoal); }
+.compare-header div { padding: 18px 24px; font-size: 14px; font-weight: 700; color: white; text-align: center; }
+.compare-header div:first-child { text-align: left; color: rgba(255,255,255,0.5); }
+.compare-header .cc-col { background: var(--blue); }
+.compare-row { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+.compare-row:last-child { border-bottom: none; }
+.compare-row div { padding: 16px 24px; font-size: 14px; display: flex; align-items: center; }
+.compare-row div:first-child { font-weight: 600; color: var(--charcoal); }
+.compare-row div:nth-child(2) { justify-content: center; background: var(--blue-light); }
+.compare-row div:nth-child(3) { justify-content: center; color: var(--mid); }
+.compare-row:nth-child(even) { background: var(--light); }
+.compare-row:nth-child(even) div:nth-child(2) { background: #dbe9fa; }
+.check-yes { color: var(--green); font-weight: 700; font-size: 16px; }
+.check-no { color: var(--red); font-weight: 700; font-size: 16px; }
+.check-partial { color: var(--warm); font-weight: 600; font-size: 13px; }
+
+/* JOURNEY */
+.journey-section { padding: 100px 64px; background: var(--light); }
+.journey-section h2 { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+.journey-section h2 em { font-style: italic; color: var(--blue); font-weight: 300; }
+.journey-sub { text-align: center; color: var(--mid); font-size: 16px; margin-bottom: 64px; }
+.journey-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
+.journey-card { background: white; border-radius: 20px; padding: 28px 22px; border: 1.5px solid var(--border); transition: all .3s; }
+.journey-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(26,111,212,0.1); border-color: var(--blue); }
+.journey-step-num { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.journey-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+.journey-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--charcoal); }
+.journey-card p { font-size: 13px; color: var(--mid); line-height: 1.65; }
+.journey-card.highlight { border-color: var(--blue); background: var(--blue-light); }
+.journey-card.highlight .journey-step-num { color: var(--blue-dark); }
+
+/* HOW IT WORKS */
+.how-section { padding: 100px 64px; }
+.how-section h2 { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 700; margin-bottom: 64px; }
+.how-section h2 em { font-style: italic; color: var(--blue); font-weight: 300; }
+.how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.how-step { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left .2s; }
+.how-step:first-child { padding-top: 0; }
+.how-step:last-child { border-bottom: none; }
+.how-step:hover { padding-left: 6px; }
+.how-num { width: 44px; height: 44px; border-radius: 50%; background: var(--blue-light); color: var(--blue-dark); font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s; }
+.how-step:hover .how-num { background: var(--blue); color: white; }
+.how-step-text h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.how-step-text p { font-size: 14px; color: var(--mid); line-height: 1.7; }
+
+.dashboard-preview { background: var(--charcoal); border-radius: 24px; padding: 28px; position: relative; overflow: hidden; }
+.dashboard-preview::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(42,191,191,0.15), transparent 70%); border-radius: 50%; }
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.dash-title { color: white; font-size: 16px; font-weight: 700; }
+.dash-time { color: rgba(255,255,255,0.4); font-size: 13px; }
+.dash-caregiver { background: rgba(255,255,255,0.07); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.dash-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--sky), var(--teal)); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.dash-name { color: white; font-size: 15px; font-weight: 700; }
+.dash-role { color: rgba(255,255,255,0.5); font-size: 12px; }
+.dash-status { background: rgba(42,191,191,0.2); color: var(--teal); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-left: auto; }
+.dash-checklist { background: rgba(255,255,255,0.05); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+.dash-cl-title { color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.dash-cl-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); font-size: 13px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.dash-cl-item:last-child { border-bottom: none; }
+.dash-check { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+.dash-check.done { background: var(--teal); color: white; }
+.dash-check.todo { background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15); }
+.dash-progress { background: rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+.dash-prog-top { display: flex; justify-content: space-between; color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 10px; }
+.dash-prog-bar { background: rgba(255,255,255,0.1); border-radius: 4px; height: 8px; overflow: hidden; }
+.dash-prog-fill { height: 100%; width: 75%; background: linear-gradient(90deg, var(--blue), var(--teal)); border-radius: 4px; }
+
+/* BOOKING */
+.book-section { padding: 100px 64px; background: var(--blue-light); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.section-tag { display: inline-block; background: var(--blue); color: white; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 16px; border-radius: 50px; margin-bottom: 20px; }
+.book-left h2 { font-family: 'Fraunces', serif; font-size: 44px; font-weight: 700; line-height: 1.1; margin-bottom: 16px; }
+.book-left h2 em { font-style: italic; color: var(--blue); font-weight: 300; }
+.book-left p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 36px; }
+.guarantee-cards { display: flex; flex-direction: column; gap: 14px; }
+.g-card { background: white; border-radius: 16px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); }
+.g-icon { font-size: 26px; flex-shrink: 0; }
+.g-text strong { font-size: 14px; font-weight: 700; display: block; margin-bottom: 2px; }
+.g-text span { font-size: 13px; color: var(--mid); }
+.book-form { background: white; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(26,111,212,0.08); border: 1px solid var(--border); }
+.book-form h3 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; margin-bottom: 28px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--mid); margin-bottom: 8px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; color: var(--charcoal); background: white; outline: none; transition: border-color .2s; appearance: none; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.urgency-row { display: flex; gap: 10px; margin-bottom: 18px; }
+.urgency-btn { flex: 1; padding: 10px 6px; border-radius: 10px; border: 1.5px solid var(--border); background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--mid); cursor: pointer; transition: all .2s; text-align: center; }
+.urgency-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.urgency-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+.form-submit { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 4px; transition: all .25s; box-shadow: 0 8px 24px rgba(26,111,212,0.3); }
+.form-submit:hover { background: var(--blue-dark); transform: translateY(-2px); }
+.form-note { font-size: 12px; color: var(--mid); text-align: center; margin-top: 14px; line-height: 1.5; }
+
+/* TESTIMONIALS */
+.testimonials-section { padding: 100px 64px; background: white; }
+.testimonials-section h2 { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 700; margin-bottom: 12px; text-align: center; }
+.testimonials-section h2 em { font-style: italic; font-weight: 300; color: var(--blue); }
+.t-sub { text-align: center; color: var(--mid); margin-bottom: 56px; }
+.t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.t-card { border: 1.5px solid var(--border); border-radius: 20px; padding: 32px 26px; transition: all .3s; }
+.t-card:hover { border-color: var(--blue); box-shadow: 0 16px 40px rgba(26,111,212,0.1); }
+.t-stars { color: var(--yellow); font-size: 14px; margin-bottom: 16px; }
+.t-card blockquote { font-family: 'Fraunces', serif; font-size: 18px; font-style: italic; font-weight: 300; color: var(--charcoal); line-height: 1.6; margin-bottom: 24px; border: none; padding: 0; }
+.t-author { display: flex; align-items: center; gap: 12px; }
+.t-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.t-name { font-size: 14px; font-weight: 700; }
+.t-info { font-size: 12px; color: var(--mid); margin-top: 2px; }
+
+/* ACCESSIBILITY CALLOUT */
+.accessibility-section { padding: 80px 64px; background: var(--light); }
+.access-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.access-inner h2 { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700; margin-bottom: 14px; line-height: 1.15; }
+.access-inner h2 em { font-style: italic; color: var(--blue); font-weight: 300; }
+.access-inner p { font-size: 15px; color: var(--mid); line-height: 1.7; margin-bottom: 18px; }
+.access-features { display: flex; flex-direction: column; gap: 14px; }
+.access-feat { display: flex; align-items: center; gap: 14px; background: white; border-radius: 14px; padding: 16px 20px; border: 1px solid var(--border); }
+.access-feat .af-icon { font-size: 24px; flex-shrink: 0; }
+.access-feat .af-text { font-size: 14px; color: var(--charcoal); }
+.access-feat .af-text strong { font-weight: 700; display: block; margin-bottom: 2px; }
+.access-feat .af-text span { font-size: 13px; color: var(--mid); }
+
+/* FINAL CTA */
+.final-cta { background: linear-gradient(135deg, var(--blue-dark), var(--blue), var(--teal)); padding: 100px 64px; text-align: center; position: relative; overflow: hidden; }
+.final-cta::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%23ffffff' fill-opacity='0.06'/%3E%3C/svg%3E"); }
+.final-cta h2 { font-family: 'Fraunces', serif; font-size: 54px; font-weight: 700; color: white; margin-bottom: 16px; position: relative; }
+.final-cta h2 em { font-style: italic; font-weight: 300; color: var(--yellow); }
+.final-cta p { font-size: 17px; color: rgba(255,255,255,0.75); margin-bottom: 44px; position: relative; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+.btn-yellow { background: var(--yellow); color: var(--charcoal); padding: 16px 38px; border-radius: 50px; font-size: 16px; font-weight: 800; text-decoration: none; transition: all .25s; box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
+.btn-yellow:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.3); }
+.btn-outline-white { color: white; padding: 16px 38px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.4); font-size: 16px; font-weight: 600; text-decoration: none; transition: all .25s; }
+.btn-outline-white:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+footer { background: var(--charcoal); padding: 60px 64px 36px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+.footer-brand .logo { color: white; margin-bottom: 14px; }
+.footer-brand p { font-size: 14px; color: rgba(255,255,255,0.45); max-width: 270px; line-height: 1.7; }
+.footer-col h4 { color: white; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 14px; transition: color .2s; }
+.footer-col a:hover { color: white; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 10px; }
+
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: 28px; padding: 52px 44px; max-width: 440px; width: 90%; animation: fadeUp .4s ease; text-align: center; position: relative; }
+.modal-emoji { font-size: 56px; margin-bottom: 20px; }
+.modal h3 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 700; margin-bottom: 10px; }
+.modal p { font-size: 15px; color: var(--mid); line-height: 1.7; margin-bottom: 28px; }
+.modal-close-btn { width: 100%; padding: 14px; background: var(--blue); color: white; border: none; border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s; }
+.modal-close-btn:hover { background: var(--blue-dark); }
+.modal-x { position: absolute; top: 18px; right: 22px; background: none; border: none; font-size: 22px; color: var(--mid); cursor: pointer; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 960px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 90px 24px 60px; min-height: auto; }
+  h1 { font-size: 40px; }
+  .hero-right, .dashboard-preview, .float-notif { display: none; }
+  .problem-section, .journey-section, .how-section, .testimonials-section, .final-cta, .compare-section, .accessibility-section { padding: 72px 24px; }
+  .pain-points, .t-grid { grid-template-columns: 1fr; }
+  .journey-steps { grid-template-columns: 1fr 1fr; }
+  .how-grid, .book-section { grid-template-columns: 1fr; gap: 40px; padding: 72px 24px; }
+  .compare-table { overflow-x: auto; }
+  .compare-header, .compare-row { min-width: 600px; }
+  .access-inner { grid-template-columns: 1fr; }
+  footer { padding: 48px 24px 28px; }
+  .hero-trust { flex-wrap: wrap; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-dot"></span>CareConnect</div>
+  <ul class="nav-links">
+    <li><span class="nav-region">📍 Northern Virginia</span></li>
+    <li><a href="#journey">How It Works</a></li>
+    <li><a href="#how">Our Platform</a></li>
+    <li><a href="#book">Book Care</a></li>
+    <li><a href="#book" class="nav-btn">Get Started Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge"><span class="live-dot"></span> Serving Northern Virginia families</div>
+    <h1>One place to coordinate <em>all your care</em></h1>
+    <p class="hero-sub">Managing multiple caregivers with texts, spreadsheets, and sticky notes? CareConnect gives Northern Virginia families a single, trusted platform to coordinate non-medical home care — with real-time updates sent straight to your phone.</p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-white">Find a Caregiver Now</a>
+      <a href="#journey" class="btn-ghost">See how it works →</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-stat"><div class="num">500+</div><div class="label">Verified NOVA caregivers</div></div>
+      <div class="trust-stat"><div class="num">&lt; 2hrs</div><div class="label">Avg. match time</div></div>
+      <div class="trust-stat"><div class="num">98%</div><div class="label">Family satisfaction</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="phone-shell">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="app-header">
+          <div class="app-logo">CareConnect</div>
+          <div class="app-notif">3</div>
+        </div>
+        <div class="caregiver-match">
+          <div class="match-avatar">🤝</div>
+          <div class="match-info">
+            <div class="match-name">Margaret R.</div>
+            <div class="match-role">Companion Care · 4.97 ★</div>
+          </div>
+          <div class="match-available">Available</div>
+        </div>
+        <div class="caregiver-match">
+          <div class="match-avatar">💛</div>
+          <div class="match-info">
+            <div class="match-name">Thomas A.</div>
+            <div class="match-role">Daily Living Aide · 4.94 ★</div>
+          </div>
+          <div class="match-available">Available</div>
+        </div>
+        <div class="checklist-widget">
+          <div class="checklist-title">📋 Today's Care Checklist</div>
+          <div class="check-item"><div class="check-box done">✓</div> Morning routine assistance</div>
+          <div class="check-item"><div class="check-box done">✓</div> Breakfast & hydration</div>
+          <div class="check-item"><div class="check-box pending"></div> Afternoon walk</div>
+          <div class="check-item"><div class="check-box pending"></div> Evening check-in</div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+        </div>
+        <div class="peace-badge">
+          <span>😊</span>
+          <p>Sarah's mom is in good hands today</p>
+        </div>
+      </div>
+    </div>
+    <div class="float-notif">
+      <div class="emoji">✅</div>
+      <div class="float-notif-text">
+        <strong>Caregiver confirmed!</strong>
+        <span>Arriving in 15 mins · Fairfax</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section">
+  <div class="section-eyebrow reveal">The Problem We Solve</div>
+  <h2 class="reveal">Coordinating care shouldn't <em>be this hard</em></h2>
+  <p class="lead reveal">Millions of working adults juggle full-time jobs with managing care for aging parents. Between multiple caregivers, schedule changes, and zero visibility — one missed handoff can unravel everything.</p>
+  <div class="pain-points">
+    <div class="pain-card reveal">
+      <div class="pain-icon">🔀</div>
+      <h3>Too many caregivers, no system</h3>
+      <p>Morning aide, afternoon companion, weekend help — you're managing it all through scattered texts, phone calls, and paper notes. Nothing is centralized.</p>
+    </div>
+    <div class="pain-card reveal">
+      <div class="pain-icon">😔</div>
+      <h3>Last-minute cancellations</h3>
+      <p>You got the notification at the worst time. Now you're scrambling to figure out who can be there for your parent today — with no backup plan.</p>
+    </div>
+    <div class="pain-card reveal">
+      <div class="pain-icon">👁️</div>
+      <h3>No visibility or accountability</h3>
+      <p>Did the caregiver arrive on time? Did Mom eat lunch? You're at work with no way to know — just hoping everything went okay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON (NEW SECTION) -->
+<section class="compare-section" id="compare">
+  <div class="section-eyebrow reveal" style="text-align:center;">Why CareConnect</div>
+  <h2 class="reveal">Replace the patchwork with <em>one platform</em></h2>
+  <p class="compare-sub reveal">See how CareConnect compares to the way most families coordinate care today.</p>
+  <div class="compare-table reveal">
+    <div class="compare-header">
+      <div>Feature</div>
+      <div class="cc-col">CareConnect</div>
+      <div>Texts, Calls & Spreadsheets</div>
+    </div>
+    <div class="compare-row">
+      <div>Centralized schedule for all caregivers</div>
+      <div><span class="check-yes">✓ Built-in</span></div>
+      <div><span class="check-no">✗ Fragmented</span></div>
+    </div>
+    <div class="compare-row">
+      <div>Real-time task checklist updates</div>
+      <div><span class="check-yes">✓ Live tracking</span></div>
+      <div><span class="check-no">✗ None</span></div>
+    </div>
+    <div class="compare-row">
+      <div>Background-checked caregivers</div>
+      <div><span class="check-yes">✓ Pre-verified</span></div>
+      <div><span class="check-partial">⚠ DIY / uncertain</span></div>
+    </div>
+    <div class="compare-row">
+      <div>End-of-day care summaries</div>
+      <div><span class="check-yes">✓ Automatic</span></div>
+      <div><span class="check-no">✗ Verbal or none</span></div>
+    </div>
+    <div class="compare-row">
+      <div>Backup caregiver matching</div>
+      <div><span class="check-yes">✓ Instant match</span></div>
+      <div><span class="check-no">✗ Panic mode</span></div>
+    </div>
+    <div class="compare-row">
+      <div>Family-wide visibility</div>
+      <div><span class="check-yes">✓ Shared dashboard</span></div>
+      <div><span class="check-partial">⚠ Group text chaos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SARAH'S JOURNEY -->
+<section class="journey-section" id="journey">
+  <div class="section-eyebrow reveal" style="text-align:center;">Sarah's Story — From Our Storyboard</div>
+  <h2 class="reveal">From <em>chaos</em> to calm — in one afternoon</h2>
+  <p class="journey-sub reveal">This is how families across Northern Virginia are finding CareConnect.</p>
+  <div class="journey-steps">
+    <div class="journey-card reveal">
+      <div class="journey-step-num">Step 01</div>
+      <span class="journey-icon">💻</span>
+      <h3>The cancellation hits</h3>
+      <p>Sarah works full-time in NOVA and manages her mother's at-home care. Her caregiver just cancelled. Panic sets in — she can't leave work.</p>
+    </div>
+    <div class="journey-card reveal">
+      <div class="journey-step-num">Step 02</div>
+      <span class="journey-icon">😓</span>
+      <h3>Scrambling for help</h3>
+      <p>She texts three people. Everyone's busy. There's no backup, no system — just scattered messages and growing anxiety.</p>
+    </div>
+    <div class="journey-card highlight reveal">
+      <div class="journey-step-num">Step 03</div>
+      <span class="journey-icon">📱</span>
+      <h3>She discovers CareConnect</h3>
+      <p>Verified local caregivers with real-time scheduling. She sets up a profile and books a background-checked match in under 5 minutes.</p>
+    </div>
+    <div class="journey-card highlight reveal">
+      <div class="journey-step-num">Step 04</div>
+      <span class="journey-icon">😊</span>
+      <h3>Peace of mind restored</h3>
+      <p>She tracks the caregiver's live checklist from work. Reads the care summary. Leaves a review. Mom is safe. Sarah breathes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-eyebrow reveal">How It Works</div>
+  <h2 class="reveal">Care coordination — <em>simplified</em></h2>
+  <div class="how-grid">
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-num">1</div>
+        <div class="how-step-text">
+          <h3>Tell us what you need</h3>
+          <p>Share details about your loved one — care type, schedule, how many caregivers are involved — so we can find the right match for your family.</p>
+        </div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">2</div>
+        <div class="how-step-text">
+          <h3>Get matched in minutes</h3>
+          <p>Our platform surfaces background-checked, insured caregivers available near you in Northern Virginia — right now or scheduled ahead of time.</p>
+        </div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">3</div>
+        <div class="how-step-text">
+          <h3>Track care in real time</h3>
+          <p>Your caregiver follows a personalized daily checklist. You get live progress updates on your phone — no more wondering if things got done.</p>
+        </div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">4</div>
+        <div class="how-step-text">
+          <h3>Review &amp; build your care team</h3>
+          <p>After each visit, read a full care summary. Rate your caregiver. Build a trusted circle you can count on — and coordinate them all in one place.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-preview reveal">
+      <div class="dash-header">
+        <div class="dash-title">Today's Care Dashboard</div>
+        <div class="dash-time">Live · 2:14 PM</div>
+      </div>
+      <div class="dash-caregiver">
+        <div class="dash-avatar">🤝</div>
+        <div>
+          <div class="dash-name">Priya N.</div>
+          <div class="dash-role">Companion & Daily Living</div>
+        </div>
+        <div class="dash-status">Active</div>
+      </div>
+      <div class="dash-checklist">
+        <div class="dash-cl-title">Caregiver Checklist</div>
+        <div class="dash-cl-item"><div class="dash-check done">✓</div> Morning routine assistance</div>
+        <div class="dash-cl-item"><div class="dash-check done">✓</div> Breakfast prepared & eaten</div>
+        <div class="dash-cl-item"><div class="dash-check done">✓</div> Morning walk completed</div>
+        <div class="dash-cl-item"><div class="dash-check todo"></div> Afternoon rest & companionship</div>
+        <div class="dash-cl-item"><div class="dash-check todo"></div> Evening meal & check-in</div>
+      </div>
+      <div class="dash-progress">
+        <div class="dash-prog-top">
+          <span>Daily progress</span>
+          <span style="color: var(--teal); font-weight: 700;">3 of 5 complete</span>
+        </div>
+        <div class="dash-prog-bar"><div class="dash-prog-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="book-section" id="book">
+  <div class="book-left reveal">
+    <div class="section-tag">Book a Caregiver</div>
+    <h2>Find your <em>perfect match</em> today</h2>
+    <p>Whether you need someone in two hours or two weeks, we'll connect you with a trusted, background-checked caregiver in the Northern Virginia area — ready to help with daily living, companionship, and more.</p>
+    <div class="guarantee-cards">
+      <div class="g-card">
+        <div class="g-icon">🔒</div>
+        <div class="g-text"><strong>Fully Background Checked</strong><span>Every caregiver is verified, insured, and trained</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-icon">⚡</div>
+        <div class="g-text"><strong>Real-Time Availability</strong><span>See who's available near you in NOVA, right now</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-icon">📋</div>
+        <div class="g-text"><strong>Live Task Checklists</strong><span>Know exactly what's getting done — in real time</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-icon">⭐</div>
+        <div class="g-text"><strong>Satisfaction Guaranteed</strong><span>Not happy? We'll find you a replacement, free</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="book-form reveal">
+    <h3>Request a Match</h3>
+    <div class="form-group">
+      <label>How urgent is your need?</label>
+      <div class="urgency-row">
+        <button class="urgency-btn active" onclick="setUrgency(this)">⚡ Right now</button>
+        <button class="urgency-btn" onclick="setUrgency(this)">📅 Today</button>
+        <button class="urgency-btn" onclick="setUrgency(this)">🗓 This week</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Jane Doe">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" placeholder="(703) 000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="jane@email.com">
+    </div>
+    <div class="form-group">
+      <label>Type of Care Needed</label>
+      <select>
+        <option>Daily Living Assistance & Companionship</option>
+        <option>Memory & Dementia Companionship</option>
+        <option>Mobility & Transportation Help</option>
+        <option>Overnight Supervision</option>
+        <option>Respite Care (family caregiver relief)</option>
+        <option>Grocery Shopping & Errands</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your NOVA Zip Code</label>
+        <input type="text" placeholder="e.g. 22030">
+      </div>
+      <div class="form-group">
+        <label>How many caregivers involved?</label>
+        <select>
+          <option>Just getting started (1)</option>
+          <option>2 caregivers</option>
+          <option>3+ caregivers</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tell us about your loved one</label>
+      <textarea rows="3" placeholder="Any daily needs, preferences, mobility concerns, or schedule details..."></textarea>
+    </div>
+    <button class="form-submit" onclick="openModal()">Find My Caregiver Match →</button>
+    <p class="form-note">Currently serving Fairfax, Arlington, Loudoun, and Prince William counties.<br>Prefer to talk? Call us — we're happy to help over the phone.</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-eyebrow reveal" style="text-align:center;">Real Families, Real Stories</div>
+  <h2 class="reveal">They were in Sarah's shoes. <em>Now they're relieved.</em></h2>
+  <p class="t-sub reveal">Join families across Northern Virginia who found care they can count on.</p>
+  <div class="t-grid">
+    <div class="t-card reveal">
+      <div class="t-stars">★★★★★</div>
+      <blockquote>My mother's caregiver cancelled with zero notice. CareConnect had someone at the door by noon. I was at work in Tysons and could track everything from my phone.</blockquote>
+      <div class="t-author">
+        <div class="t-avatar">👩</div>
+        <div><div class="t-name">Susan H.</div><div class="t-info">Daughter of client · Fairfax, VA</div></div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-stars">★★★★★</div>
+      <blockquote>We had three different people helping Dad throughout the week. CareConnect finally gave us one place to see what everyone is doing. The daily summaries are a lifesaver.</blockquote>
+      <div class="t-author">
+        <div class="t-avatar">👨</div>
+        <div><div class="t-name">David L.</div><div class="t-info">Son of client · Arlington, VA</div></div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-stars">★★★★★</div>
+      <blockquote>My dad refused outside help for years. Our CareConnect match won him over in one visit. It's so simple — even my tech-shy mom can check the updates herself.</blockquote>
+      <div class="t-author">
+        <div class="t-avatar">👩</div>
+        <div><div class="t-name">Rachel M.</div><div class="t-info">Daughter of client · Loudoun, VA</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESSIBILITY / EASE OF USE -->
+<section class="accessibility-section">
+  <div class="access-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Built for Real Families</div>
+      <h2>Simple enough for <em>everyone</em></h2>
+      <p>We know not everyone in the family is tech-savvy — and that's okay. CareConnect is designed to be as simple as checking your email, with phone support always available.</p>
+    </div>
+    <div class="access-features reveal">
+      <div class="access-feat">
+        <div class="af-icon">📱</div>
+        <div class="af-text"><strong>Clean, simple interface</strong><span>Large text, clear buttons — no confusing menus</span></div>
+      </div>
+      <div class="access-feat">
+        <div class="af-icon">📞</div>
+        <div class="af-text"><strong>Phone support anytime</strong><span>Prefer to call? Our team handles everything for you</span></div>
+      </div>
+      <div class="access-feat">
+        <div class="af-icon">👨‍👩‍👧</div>
+        <div class="af-text"><strong>Family sharing built in</strong><span>Siblings, spouses — everyone can see care updates</span></div>
+      </div>
+      <div class="access-feat">
+        <div class="af-icon">📧</div>
+        <div class="af-text"><strong>Email summaries</strong><span>Get daily care reports in your inbox — no app needed</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Stop scrambling. <em>Start coordinating.</em></h2>
+  <p>One platform for all your caregivers. Live updates. Total peace of mind — for your whole family.</p>
+  <div class="cta-btns">
+    <a href="#book" class="btn-yellow">Find a Caregiver Today</a>
+    <a href="tel:18005551234" class="btn-outline-white">📞 (800) 555-1234</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo"><span class="logo-dot"></span>CareConnect</div>
+      <p>Trusted non-medical home care coordination for families across Northern Virginia.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Daily Living Assistance</a></li>
+        <li><a href="#">Companion Care</a></li>
+        <li><a href="#">Memory Care Support</a></li>
+        <li><a href="#">Overnight Supervision</a></li>
+        <li><a href="#">Respite Care</a></li>
+        <li><a href="#">Errands & Transportation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Service Areas</h4>
+      <ul>
+        <li><a href="#">Fairfax County</a></li>
+        <li><a href="#">Arlington County</a></li>
+        <li><a href="#">Loudoun County</a></li>
+        <li><a href="#">Prince William County</a></li>
+        <li><a href="#">City of Alexandria</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Become a Caregiver</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Safety Guarantee</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 CareConnect. All rights reserved. · Non-medical home care services only.</span>
+    <span>Made with ♥ for NOVA families</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">×</button>
+    <div class="modal-emoji">🌟</div>
+    <h3>You're all set!</h3>
+    <p>A CareConnect specialist will reach out within 2 hours with caregiver matches in your area. You're one step closer to peace of mind.</p>
+    <button class="modal-close-btn" onclick="closeModal()">Got it, thank you!</button>
+  </div>
+</div>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90); });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', ev => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { ev.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  function setUrgency(btn) {
+    document.querySelectorAll('.urgency-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function openModal() { document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+  document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+</script>
+</body>
+</html>
