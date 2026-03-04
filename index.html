@@ -234,6 +234,7 @@ h1 em { font-style: italic; font-weight: 300; color: var(--yellow); }
 .form-group label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--mid); margin-bottom: 8px; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; color: var(--charcoal); background: white; outline: none; transition: border-color .2s; appearance: none; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+.field-error { border-color: var(--red) !important; background: var(--red-light) !important; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .urgency-row { display: flex; gap: 10px; margin-bottom: 18px; }
 .urgency-btn { flex: 1; padding: 10px 6px; border-radius: 10px; border: 1.5px solid var(--border); background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--mid); cursor: pointer; transition: all .2s; text-align: center; }
@@ -241,6 +242,8 @@ h1 em { font-style: italic; font-weight: 300; color: var(--yellow); }
 .urgency-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
 .form-submit { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 4px; transition: all .25s; box-shadow: 0 8px 24px rgba(26,111,212,0.3); }
 .form-submit:hover { background: var(--blue-dark); transform: translateY(-2px); }
+.form-error { display: none; margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--red); }
+.form-error.visible { display: block; }
 .form-note { font-size: 12px; color: var(--mid); text-align: center; margin-top: 14px; line-height: 1.5; }
 
 /* TESTIMONIALS */
@@ -598,63 +601,66 @@ footer { background: var(--charcoal); padding: 60px 64px 36px; }
       </div>
     </div>
   </div>
-  <div class="book-form reveal">
+  <form class="book-form reveal" id="match-form" novalidate>
     <h3>Request a Match</h3>
     <div class="form-group">
       <label>How urgent is your need?</label>
       <div class="urgency-row">
-        <button class="urgency-btn active" onclick="setUrgency(this)">⚡ Right now</button>
-        <button class="urgency-btn" onclick="setUrgency(this)">📅 Today</button>
-        <button class="urgency-btn" onclick="setUrgency(this)">🗓 This week</button>
+        <button type="button" class="urgency-btn active" onclick="setUrgency(this)">⚡ Right now</button>
+        <button type="button" class="urgency-btn" onclick="setUrgency(this)">📅 Today</button>
+        <button type="button" class="urgency-btn" onclick="setUrgency(this)">🗓 This week</button>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label>Your Name</label>
-        <input type="text" placeholder="Jane Doe">
+        <input type="text" name="name" placeholder="Jane Doe" required>
       </div>
       <div class="form-group">
         <label>Phone</label>
-        <input type="tel" placeholder="(703) 000-0000">
+        <input type="tel" name="phone" placeholder="(703) 000-0000" required>
       </div>
     </div>
     <div class="form-group">
       <label>Email Address</label>
-      <input type="email" placeholder="jane@email.com">
+      <input type="email" name="email" placeholder="jane@email.com" required>
     </div>
     <div class="form-group">
       <label>Type of Care Needed</label>
-      <select>
-        <option>Daily Living Assistance & Companionship</option>
-        <option>Memory & Dementia Companionship</option>
-        <option>Mobility & Transportation Help</option>
-        <option>Overnight Supervision</option>
-        <option>Respite Care (family caregiver relief)</option>
-        <option>Grocery Shopping & Errands</option>
+      <select name="careType" required>
+        <option value="" selected disabled>Select care type</option>
+        <option value="daily-living">Daily Living Assistance & Companionship</option>
+        <option value="memory-care">Memory & Dementia Companionship</option>
+        <option value="mobility">Mobility & Transportation Help</option>
+        <option value="overnight">Overnight Supervision</option>
+        <option value="respite">Respite Care (family caregiver relief)</option>
+        <option value="errands">Grocery Shopping & Errands</option>
       </select>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label>Your NOVA Zip Code</label>
-        <input type="text" placeholder="e.g. 22030">
+        <input type="text" name="zip" placeholder="e.g. 22030" required>
       </div>
       <div class="form-group">
         <label>How many caregivers involved?</label>
-        <select>
-          <option>Just getting started (1)</option>
-          <option>2 caregivers</option>
-          <option>3+ caregivers</option>
-          <option>Not sure yet</option>
+        <select name="caregiverCount" required>
+          <option value="" selected disabled>Select one</option>
+          <option value="1">Just getting started (1)</option>
+          <option value="2">2 caregivers</option>
+          <option value="3-plus">3+ caregivers</option>
+          <option value="unknown">Not sure yet</option>
         </select>
       </div>
     </div>
     <div class="form-group">
       <label>Tell us about your loved one</label>
-      <textarea rows="3" placeholder="Any daily needs, preferences, mobility concerns, or schedule details..."></textarea>
+      <textarea rows="3" name="details" placeholder="Any daily needs, preferences, mobility concerns, or schedule details..." required></textarea>
     </div>
-    <button class="form-submit" onclick="openModal()">Find My Caregiver Match →</button>
+    <button type="submit" class="form-submit">Find My Caregiver Match →</button>
+    <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
     <p class="form-note">Currently serving Fairfax, Arlington, Loudoun, and Prince William counties.<br>Prefer to talk? Call us — we're happy to help over the phone.</p>
-  </div>
+  </form>
 </section>
 
 <!-- TESTIMONIALS -->
@@ -801,6 +807,66 @@ footer { background: var(--charcoal); padding: 60px 64px 36px; }
     document.querySelectorAll('.urgency-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
+
+  const matchForm = document.getElementById('match-form');
+  const formError = document.getElementById('form-error');
+  const requiredFields = matchForm.querySelectorAll('[required]');
+
+  function showFormError(message) {
+    formError.textContent = message;
+    formError.classList.add('visible');
+  }
+
+  function clearFormError() {
+    formError.textContent = '';
+    formError.classList.remove('visible');
+  }
+
+  function isFormValid() {
+    return Array.from(requiredFields).every((field) => field.value.trim() !== '' && field.checkValidity());
+  }
+
+  function setFieldErrorState(field, hasError) {
+    field.classList.toggle('field-error', hasError);
+  }
+
+  matchForm.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    let firstInvalidField = null;
+
+    try {
+      requiredFields.forEach((field) => {
+        const isMissing = field.value.trim() === '';
+        const isInvalid = isMissing || !field.checkValidity();
+        setFieldErrorState(field, isInvalid);
+        if (isInvalid && !firstInvalidField) firstInvalidField = field;
+      });
+
+      if (firstInvalidField) {
+        throw new Error('Please fill out all required fields before submitting.');
+      }
+
+      clearFormError();
+      openModal();
+    } catch (err) {
+      showFormError(err.message);
+      if (firstInvalidField) firstInvalidField.focus();
+    }
+  });
+
+  requiredFields.forEach((field) => {
+    field.addEventListener('input', () => {
+      const isInvalid = field.value.trim() === '' || !field.checkValidity();
+      setFieldErrorState(field, isInvalid);
+      if (formError.classList.contains('visible') && isFormValid()) clearFormError();
+    });
+    field.addEventListener('change', () => {
+      const isInvalid = field.value.trim() === '' || !field.checkValidity();
+      setFieldErrorState(field, isInvalid);
+      if (formError.classList.contains('visible') && isFormValid()) clearFormError();
+    });
+  });
+
   function openModal() { document.getElementById('modal').classList.add('open'); }
   function closeModal() { document.getElementById('modal').classList.remove('open'); }
   document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
